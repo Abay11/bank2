@@ -35,8 +35,11 @@ private:
     QDialog *dialog;
     QTableView *view0, *view1;
     QTableWidget *twgt;
+    QSqlQueryModel *model0, *model1;
     DB *db;
     std::vector<std::pair<QString, QString>> accounts0, accounts1;
+    QVBoxLayout *dialogLay;
+    int debit0 = 0, credit0 = 0, debit1 = 0, credit1 = 0, turnover0 = 0, turnover1 = 0;
 };
 
 #endif // MAINWINDOW_H
