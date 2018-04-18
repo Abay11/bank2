@@ -8,6 +8,7 @@
 #include <QDialog>
 #include <QTableWidget>
 #include <QSqlQueryModel>
+#include <QSqlTableModel>
 #include <QTableView>
 #include <vector>
 #include <db.h>
@@ -27,6 +28,7 @@ public slots:
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void make_table(QString account);
 
 private:
     Ui::MainWindow *ui;

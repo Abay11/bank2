@@ -30,10 +30,13 @@ MainWindow::MainWindow(QWidget *parent) :
     accounts1.push_back(std::make_pair<QString, QString>("70601810900102720405", "40817810900000033333"));
 
     model0 = new QSqlQueryModel();
+    QSqlTableModel *tableModel = new QSqlTableModel();
+
 
 //            .arg(accounts0[0].first).arg(accounts0[1].first);
-    model0->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR creditNum = '%1' "
-                             "OR debitNum = '%2' OR creditNum = '%2'").arg(accounts0[0].first).arg(accounts0[1].first));
+    model0->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR  creditNum = '%1'").arg(accounts0[0].first));
+//    model0->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR creditNum = '%1' "
+//                             "OR debitNum = '%2' OR creditNum = '%2'").arg(accounts0[0].first).arg(accounts0[1].first));
     model0->setHeaderData(1, Qt::Horizontal, "Счет дебет");
     model0->setHeaderData(2, Qt::Horizontal, "Счет кредит");
     model0->setHeaderData(3, Qt::Horizontal, "Дата");
@@ -121,10 +124,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //    db->fillDB(accounts0[0].second, accounts0[0].first, "03.05.2018", 100, db->OPERATION_TYPE::CREDIT);
 //    db->fillDB(accounts0[0].second, accounts0[0].first, "03.05.2018", 100, db->OPERATION_TYPE::CREDIT);
 
-//    db->fillDB(accounts1[0].first, accounts0[0].second, "02.05.2018", 100, db->OPERATION_TYPE::DEBIT);
-//    db->fillDB(accounts1[0].first, accounts0[0].second, "02.05.2018", 100, db->OPERATION_TYPE::DEBIT);
-//    db->fillDB(accounts1[0].second, accounts0[0].first, "04.05.2018", 50, db->OPERATION_TYPE::CREDIT);
-//    db->fillDB(accounts1[0].second, accounts0[0].first, "04.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//    db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 100, db->OPERATION_TYPE::DEBIT);
+//    db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 100, db->OPERATION_TYPE::DEBIT);
+//    db->fillDB(accounts1[0].second, accounts1[0].first, "08.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//    db->fillDB(accounts1[0].second, accounts1[0].first, "08.05.2018", 100, db->OPERATION_TYPE::CREDIT);
 
 
     connect(twgt, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(item_clicked()));
@@ -139,6 +142,10 @@ void MainWindow::item_clicked(){
     } else if(twgt->currentIndex().row() == 1){ //отображаю вторую таблицу
         view1->show();
     }
+}
+
+void MainWindow::make_table(QString account){
+
 }
 
 MainWindow::~MainWindow()
