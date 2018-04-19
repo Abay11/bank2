@@ -1,0 +1,17 @@
+//        db->fillDB(accounts0[0].first, accounts0[0].second, "01.05.2018", 200, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[0].first, accounts0[0].second, "01.05.2018", 200, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[0].second, accounts0[0].first, "02.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[0].second, accounts0[0].first, "02.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[1].first, accounts0[1].second, "03.05.2018", 500, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[1].first, accounts0[1].second, "03.05.2018", 500, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[1].second, accounts0[1].first, "05.05.2018", 250, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[1].second, accounts0[1].first, "05.05.2018", 250, db->OPERATION_TYPE::CREDIT);
+
+//        db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 300, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 300, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[0].second, accounts1[0].first, "10.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[0].second, accounts1[0].first, "10.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[1].first, accounts1[1].second, "13.05.2018", 150, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[1].first, accounts1[1].second, "13.05.2018", 150, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[1].second, accounts1[1].first, "15.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[1].second, accounts1[1].first, "18.05.2018", 50, db->OPERATION_TYPE::CREDIT);

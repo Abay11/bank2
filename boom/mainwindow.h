@@ -28,13 +28,13 @@ public slots:
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void make_table(QTableView *, QString, int &);
+    void make_table(QDialog *, QString, int &);
 
 private:
     Ui::MainWindow *ui;
     QPushButton *button;
     QVBoxLayout *vlay;
-    QDialog *dialog;
+    QDialog *dialog00, *dialog01, *dialog10, *dialog11;
     QTableView *view00, *view01, *view10, *view11;
     QTableWidget *twgt;
     QSqlQueryModel *model0, *model1;

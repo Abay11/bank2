@@ -10,7 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     vlay = new QVBoxLayout();
-    dialog = new QDialog(this);
+    dialog00 = new QDialog(this);
+    dialog01 = new QDialog(this);
+    dialog10 = new QDialog(this);
+    dialog11 = new QDialog(this);
     view00 = new QTableView();
     view01 = new QTableView();
     view10 = new QTableView();
@@ -31,11 +34,11 @@ MainWindow::MainWindow(QWidget *parent) :
     accounts1.push_back(std::make_pair<QString, QString>("70601810900002720405", "40817810900000023333"));
     accounts1.push_back(std::make_pair<QString, QString>("70601810900102720405", "40817810900000033333"));
 
-    make_table(view00, accounts0[0].first, turnover00);
-    make_table(view01, accounts0[1].first, turnover01);
+    make_table(dialog00, accounts0[0].first, turnover00);
+    make_table(dialog01, accounts0[1].first, turnover01);
 
-    make_table(view10, accounts1[0].first, turnover10);
-    make_table(view11, accounts1[1].first, turnover11);
+    make_table(dialog10, accounts1[0].first, turnover10);
+    make_table(dialog11, accounts1[1].first, turnover11);
 
     twgt->verticalHeader()->hide();
     twgt->horizontalHeader()->setStretchLastSection(true);
@@ -103,16 +106,17 @@ void MainWindow::item_clicked(){
     dialogLay = new QVBoxLayout();
 
     if(twgt->currentIndex().row() == 0){ //отображаю первую таблицу
-        view00->show();
-        view01->show();
+        dialog00->show();
+        dialog01->show();
     } else if(twgt->currentIndex().row() == 1){ //отображаю вторую таблицу
-        view10->show();
-        view11->show();
+        dialog10->show();
+        dialog11->show();
     }
 }
 
-void MainWindow::make_table(QTableView *view, QString account, int &turnover){
+void MainWindow::make_table(QDialog *dialog, QString account, int &turnover){
     QSqlQueryModel *model = new QSqlQueryModel();
+    QTableView *view = new QTableView();
     model->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR  creditNum = '%2'").arg(account).arg(account));
     model->setHeaderData(1, Qt::Horizontal, "Счет дебет");
     model->setHeaderData(2, Qt::Horizontal, "Счет кредит");
@@ -133,7 +137,12 @@ void MainWindow::make_table(QTableView *view, QString account, int &turnover){
     view->horizontalHeader()->setStretchLastSection(true);
     view->verticalHeader()->setStretchLastSection(true);
     view->resize(600, 150);
-
+    dialogLay = new QVBoxLayout();
+    dialogLay->addWidget(view);
+    QLabel *lbl = new QLabel(QString("%1 \t\t %2\t\t").arg(std::to_string(debit).c_str()).arg(std::to_string(credit).c_str()));
+    dialogLay->addWidget(lbl, 20, Qt::AlignRight);
+    dialog->setLayout(dialogLay);
+    dialog->resize(600, 200);
 }
 
 MainWindow::~MainWindow()
