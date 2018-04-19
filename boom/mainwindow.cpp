@@ -11,8 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     vlay = new QVBoxLayout();
     dialog = new QDialog(this);
-    view0 = new QTableView();
-    view1 = new QTableView();
+    view00 = new QTableView();
+    view01 = new QTableView();
+    view10 = new QTableView();
+    view11 = new QTableView();
     twgt = new QTableWidget();
     db = new DB();
 
@@ -29,59 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     accounts1.push_back(std::make_pair<QString, QString>("70601810900002720405", "40817810900000023333"));
     accounts1.push_back(std::make_pair<QString, QString>("70601810900102720405", "40817810900000033333"));
 
-    model0 = new QSqlQueryModel();
-    QSqlTableModel *tableModel = new QSqlTableModel();
+    make_table(view00, accounts0[0].first, turnover00);
+    make_table(view01, accounts0[1].first, turnover01);
 
-
-//            .arg(accounts0[0].first).arg(accounts0[1].first);
-    model0->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR  creditNum = '%1'").arg(accounts0[0].first));
-//    model0->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR creditNum = '%1' "
-//                             "OR debitNum = '%2' OR creditNum = '%2'").arg(accounts0[0].first).arg(accounts0[1].first));
-    model0->setHeaderData(1, Qt::Horizontal, "Счет дебет");
-    model0->setHeaderData(2, Qt::Horizontal, "Счет кредит");
-    model0->setHeaderData(3, Qt::Horizontal, "Дата");
-    model0->setHeaderData(4, Qt::Horizontal, "Сумма дебета");
-    model0->setHeaderData(5, Qt::Horizontal, "Сумма кредита");
-
-    view0->setModel(model0);
-    view0->hideColumn(0);
-    view0->resizeColumnsToContents();
-    view0->horizontalHeader()->setStretchLastSection(true);
-    view0->verticalHeader()->setStretchLastSection(true);
-    view0->resize(600, 600);
-
-    for(int i = 0; i < model0->columnCount(); ++i){
-        debit0 += model0->data(model0->index(i, 3)).toInt();
-        credit0 += model0->data(model0->index(i, 4)).toInt();
-    }
-
-    turnover0 = debit0 - credit0;
-
-    model1 = new QSqlQueryModel();
-    model1->setQuery(QString("SELECT * FROM credit"));
-
-//    model1->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR creditNum = '%1' "
-//                             "OR debitNum = '%2' OR creditNum = '%2'").arg(accounts1[0].first).arg(accounts1[1].first));
-    model1->setHeaderData(1, Qt::Horizontal, "Счет дебет");
-    model1->setHeaderData(2, Qt::Horizontal, "Счет кредит");
-    model1->setHeaderData(3, Qt::Horizontal, "Дата");
-    model1->setHeaderData(4, Qt::Horizontal, "Сумма дебета");
-    model1->setHeaderData(5, Qt::Horizontal, "Сумма кредита");
-
-    view1->setModel(model1);
-    view1->hideColumn(0);
-    view1->resizeColumnsToContents();
-    view1->horizontalHeader()->setStretchLastSection(true);
-    view1->verticalHeader()->setStretchLastSection(true);
-    view1->resize(600, 600);
-
-    for(int i = 0; i < model1->columnCount(); ++i){
-        debit1 += model1->data(model1->index(i, 3)).toInt();
-        credit1 += model1->data(model1->index(i, 4)).toInt();
-    }
-
-    turnover1 = debit1 - credit1;
-
+    make_table(view10, accounts1[0].first, turnover10);
+    make_table(view11, accounts1[1].first, turnover11);
 
     twgt->verticalHeader()->hide();
     twgt->horizontalHeader()->setStretchLastSection(true);
@@ -110,24 +64,35 @@ MainWindow::MainWindow(QWidget *parent) :
 
     twgt->verticalHeader()->setStretchLastSection(true);
 
-    qDebug() << turnover0 << " " << turnover1;
+    int total0 = 0, total1 = 0;
+    total0 = turnover00 + turnover01;
+    total1 = turnover10 + turnover11;
+    twgt->setItem(0, 2, new QTableWidgetItem(std::to_string(total0).c_str()));
+    twgt->setItem(1, 2, new QTableWidgetItem(std::to_string(total1).c_str()));
+    twgt->setItem(2, 2, new QTableWidgetItem(std::to_string(total0 + total1).c_str()));
 
-    //    twgt->setItem(0, 2, new QTableWidgetItem(QString(turnover0)));
-//    twgt->setItem(1, 2, new QTableWidgetItem();
 
     vlay->addWidget(twgt);
 
     ui->centralWidget->setLayout(vlay);
 
-//    db->fillDB(accounts0[0].first, accounts0[0].second, "01.05.2018", 200, db->OPERATION_TYPE::DEBIT);
-//    db->fillDB(accounts0[0].first, accounts0[0].second, "01.05.2018", 200, db->OPERATION_TYPE::DEBIT);
-//    db->fillDB(accounts0[0].second, accounts0[0].first, "03.05.2018", 100, db->OPERATION_TYPE::CREDIT);
-//    db->fillDB(accounts0[0].second, accounts0[0].first, "03.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[0].first, accounts0[0].second, "01.05.2018", 200, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[0].first, accounts0[0].second, "01.05.2018", 200, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[0].second, accounts0[0].first, "02.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[0].second, accounts0[0].first, "02.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[1].first, accounts0[1].second, "03.05.2018", 500, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[1].first, accounts0[1].second, "03.05.2018", 500, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts0[1].second, accounts0[1].first, "05.05.2018", 250, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts0[1].second, accounts0[1].first, "05.05.2018", 250, db->OPERATION_TYPE::CREDIT);
 
-//    db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 100, db->OPERATION_TYPE::DEBIT);
-//    db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 100, db->OPERATION_TYPE::DEBIT);
-//    db->fillDB(accounts1[0].second, accounts1[0].first, "08.05.2018", 50, db->OPERATION_TYPE::CREDIT);
-//    db->fillDB(accounts1[0].second, accounts1[0].first, "08.05.2018", 100, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 300, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[0].first, accounts1[0].second, "05.05.2018", 300, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[0].second, accounts1[0].first, "10.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[0].second, accounts1[0].first, "10.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[1].first, accounts1[1].second, "13.05.2018", 150, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[1].first, accounts1[1].second, "13.05.2018", 150, db->OPERATION_TYPE::DEBIT);
+//        db->fillDB(accounts1[1].second, accounts1[1].first, "15.05.2018", 50, db->OPERATION_TYPE::CREDIT);
+//        db->fillDB(accounts1[1].second, accounts1[1].first, "18.05.2018", 50, db->OPERATION_TYPE::CREDIT);
 
 
     connect(twgt, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(item_clicked()));
@@ -138,13 +103,36 @@ void MainWindow::item_clicked(){
     dialogLay = new QVBoxLayout();
 
     if(twgt->currentIndex().row() == 0){ //отображаю первую таблицу
-        view0->show();
+        view00->show();
+        view01->show();
     } else if(twgt->currentIndex().row() == 1){ //отображаю вторую таблицу
-        view1->show();
+        view10->show();
+        view11->show();
     }
 }
 
-void MainWindow::make_table(QString account){
+void MainWindow::make_table(QTableView *view, QString account, int &turnover){
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery(QString("SELECT * FROM credit WHERE debitNum = '%1' OR  creditNum = '%2'").arg(account).arg(account));
+    model->setHeaderData(1, Qt::Horizontal, "Счет дебет");
+    model->setHeaderData(2, Qt::Horizontal, "Счет кредит");
+    model->setHeaderData(3, Qt::Horizontal, "Дата");
+    model->setHeaderData(4, Qt::Horizontal, "Сумма дебета");
+    model->setHeaderData(5, Qt::Horizontal, "Сумма кредита");
+
+    int credit = 0, debit = 0;
+    for(int i = 0; i < model->rowCount(); ++i){
+        debit += model->data(model->index(i, 4)).toInt();
+        credit += model->data(model->index(i, 5)).toInt();
+    }
+    turnover = debit - credit;
+
+    view->setModel(model);
+    view->hideColumn(0);
+    view->resizeColumnsToContents();
+    view->horizontalHeader()->setStretchLastSection(true);
+    view->verticalHeader()->setStretchLastSection(true);
+    view->resize(600, 150);
 
 }
 
